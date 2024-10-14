@@ -1,20 +1,34 @@
 from calculator.calculation import Calculation
 from calculator.operations import add, subtract, multiply, divide
+from calculator.calculations import Calculations
+from decimal import Decimal
+from typing import Callable
 
 class Calculator:
 
-    def add(a,b):
-        calculation = Calculation(a, b, add)
-        return calculation.get_result()
+    @staticmethod
+    def _perform_operation(a: Decimal, b: Decimal, operation: Callable[[Decimal, Decimal], Decimal]) -> Decimal:
+        calculation = Calculation.create(a, b, operation)
+        Calculations.add_calculation(calculation)
 
-    def subtract(a,b):
-        calculation = Calculation(a, b, subtract)
-        return calculation.get_result()
+        return calculation.perform()
+
+    @staticmethod
+    def add(a: Decimal, b: Decimal) -> Decimal:
+        
+        return Calculator._perform_operation(a, b, add)
+
+    @staticmethod
+    def subtract(a: Decimal, b: Decimal) -> Decimal:
+        
+        return Calculator._perform_operation(a, b, subtract)
     
-    def multiply(a,b):
-        calculation = Calculation(a, b, multiply)
-        return calculation.get_result()
+    @staticmethod
+    def multiply(a: Decimal, b: Decimal) -> Decimal:
+
+        return Calculator._perform_operation(a, b, multiply)
     
-    def divide(a,b):
-        calculation = Calculation(a, b, divide)
-        return calculation.get_result()
+    @staticmethod
+    def divide(a: Decimal, b: Decimal) -> Decimal:
+         
+        return Calculator._perform_operation(a, b, divide)
